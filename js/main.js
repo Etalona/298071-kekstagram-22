@@ -10,7 +10,8 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
   }
 }
-
+getRandomIntInclusive(10, 25);
 function checkLengthComment(checkedString, maxLength) {
   return checkedString.length <= maxLength;
 }
+checkLengthComment('sjefhksjfh', 90);
