@@ -48,4 +48,5 @@ const createDescriptions = () => {
 
   return list;
 };
+
 createDescriptions();
