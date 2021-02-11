@@ -1,6 +1,4 @@
-export {getRandomIntInclusive};
-
-function getRandomIntInclusive(min, max) {
+const getRandomIntInclusive = function (min, max) {
   if (min < 0) {
     return 'Диапазон может быть только положительный, включая ноль.';
   } else if (max <= min) {
@@ -10,10 +8,38 @@ function getRandomIntInclusive(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
   }
-}
-getRandomIntInclusive(1, 25);
+};
 
-function checkLengthComment(checkedString, maxLength) {
+const checkLengthComment = function (checkedString, maxLength) {
   return checkedString.length <= maxLength;
-}
-checkLengthComment('sjefhksjfh', 90);
+};
+
+const getRandomArrayElement = function (elements) {
+  return elements[Math.floor(Math.random() * elements.length)];
+};
+
+const createDescriptions = (comments, names) => {
+  let list = [];
+  let obj = {};
+  for (let i = 1; i < 26; i++) {
+    obj = {
+      id: i,
+      url: 'photos/' + i + '.jpg',
+      description: 'Оцените мой шедевр, друзья!',
+      likes: getRandomIntInclusive(15, 200),
+      comments: [],
+    };
+    for (let j = 1; j < 6; j++) {
+      obj.comments.push({
+        id: j,
+        avatar: 'img/avatar-' + getRandomIntInclusive(1, 6) + '.jpg',
+        message: getRandomArrayElement(comments),
+        name: getRandomArrayElement(names),
+      });
+    }
+    list.push(obj);
+  }
+  return list;
+};
+
+export {createDescriptions, checkLengthComment};
