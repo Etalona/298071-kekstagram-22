@@ -8,6 +8,7 @@ const showUsersPictures = function (pictures) {
     let listElement = pictures[i];
 
     pictureImg.src =  listElement.url;
+    pictureImg.setAttribute('index', i + '');
 
     let pictureCommentsCount = picture.querySelector('.picture__comments');
     pictureCommentsCount.textContent = listElement.comments.length;
@@ -20,3 +21,4 @@ const showUsersPictures = function (pictures) {
 };
 
 export {showUsersPictures}
+

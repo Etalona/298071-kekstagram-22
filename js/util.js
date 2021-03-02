@@ -32,7 +32,7 @@ const createDescriptions = (comments, names) => {
     for (let j = 1; j < 6; j++) {
       obj.comments.push({
         id: j,
-        avatar: 'img/avatar-' + getRandomIntInclusive(1, 6) + '.jpg',
+        avatar: 'img/avatar-' + getRandomIntInclusive(1, 6) + '.svg',
         message: getRandomArrayElement(comments),
         name: getRandomArrayElement(names),
       });
