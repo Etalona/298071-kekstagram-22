@@ -1,4 +1,4 @@
-const uploadClickHandler = function (evt) {
+const uploadClickHandler = function () {
 
   document.querySelector('.img-upload__overlay').classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
@@ -6,6 +6,7 @@ const uploadClickHandler = function (evt) {
   document.querySelector('.img-upload__cancel').addEventListener('click', function() {
     document.querySelector('.img-upload__overlay').classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
+    document.querySelector('.img-upload__input').value = ' ';
   });
 
 };
@@ -36,45 +37,32 @@ const imageEffect = function (selectedEffect) {
   const imgUpload =  document.querySelector('.img-upload__preview img');
   imgUpload.className = 'effects__preview--none';
   imgUpload.classList.add('effects__preview--' + selectedEffect);
-
-  /* global noUiSlider:readonly */
-  const sliderElement = document.querySelector('.effect-level__slider');
-  const valueElement = document.querySelector('.effect-level__value');
-
-  valueElement.value = 100;
-
-  noUiSlider.create(sliderElement, {
-    range: {
-      min: 0,
-      max: 100,
-    },
-    start: 100,
-    step: 1,
-    connect: 'lower',
-    format: {
-      to: function (value) {
-        if (Number.isInteger(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
-      },
-      from: function (value) {
-        return parseFloat(value);
-      },
-    },
-  });
-
-  sliderElement.noUiSlider.on('update', (values, handle) => {
-    valueElement.value = values[handle];
-  });
-
-
-
- // sliderElement.noUiSlider.destroy();
-
-
-
 };
 
-export {uploadClickHandler, imageScale, imageEffect}
+const changeIntensityEffect = function (effect, valueEffect) {
+  const imgUpload =  document.querySelector('.img-upload__preview img');
+  document.querySelector('.img-upload__effect-level').classList.remove('hidden');
+  document.querySelector('.effect-level__value').value = valueEffect;
+  if (effect === 'chrome') {
+    let valueEffectRange =  valueEffect / 100;
+    imgUpload.style.filter = 'grayscale(' + valueEffectRange + ')';
+  } else if (effect === 'sepia') {
+    let valueEffectRange =  valueEffect / 100;
+    imgUpload.style.filter = 'sepia(' + valueEffectRange + ')';
+  } else if (effect === 'marvin') {
+    let valueEffectRange =  valueEffect + '%';
+    imgUpload.style.filter = 'invert(' + valueEffectRange + ')';
+  } else if (effect === 'phobos') {
+    let valueEffectRange =  (valueEffect * 0.03).toFixed(2) + 'px';
+    imgUpload.style.filter = 'blur(' + valueEffectRange + ')';
+  } else if (effect === 'heat') {
+    let valueEffectRange =  ((valueEffect * 0.02) + 1).toFixed(2);
+    imgUpload.style.filter = 'brightness(' + valueEffectRange + ')';
+  } else {
+    document.querySelector('.img-upload__effect-level').classList.add('hidden');
+    imgUpload.style.filter = 'none';
+  }
+};
+
+export {uploadClickHandler, imageScale, imageEffect, changeIntensityEffect}
 
