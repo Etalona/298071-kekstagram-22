@@ -2,7 +2,7 @@ import {comments, names} from './data.js';
 import {createDescriptions, checkLengthComment} from './util.js';
 import {showUsersPictures} from './picture.js';
 import {pictureClickHandler} from './big-picture.js';
-import {uploadClickHandler, imageScale, imageEffect, changeIntensityEffect} from './image-edit.js';
+import {uploadClickHandler, imageScale, imageEffect, changeIntensityEffect, validHashtags, validComment} from './image-edit.js';
 import '../nouislider/nouislider.js';
 
 const pictures = createDescriptions(comments, names);
@@ -64,4 +64,16 @@ noUiSlider.create(sliderElement, {
 sliderElement.noUiSlider.on('update', (values, handle) => {
   valueElement.value = values[handle];
   changeIntensityEffect(effect, valueElement.value);
+});
+
+document.querySelector('.text__hashtags').addEventListener('input', function(evt) {
+  let hashtagsArray = (evt.target.value).split(' ').filter(e => e).map(function (value) {
+    return value.toLowerCase();
+  });
+
+  validHashtags(hashtagsArray);
+});
+document.querySelector('.text__description').addEventListener('input', function(evt) {
+
+  validComment(evt.target.value);
 });
