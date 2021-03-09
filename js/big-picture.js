@@ -46,7 +46,6 @@ const pictureClickHandler = function (evt, pictures) {
   document.querySelector('.big-picture__cancel').addEventListener('click', function() {
     bigPicture.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
-
   });
 };
 
