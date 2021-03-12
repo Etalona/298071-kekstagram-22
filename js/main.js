@@ -2,12 +2,11 @@ import {comments, names} from './data.js';
 import {createDescriptions, checkLengthComment} from './util.js';
 import {showUsersPictures} from './picture.js';
 import {pictureClickHandler} from './big-picture.js';
-import {uploadClickHandler, imageScale, imageEffect, changeIntensityEffect} from './image-edit.js';
+import {uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment} from './image-edit.js';
 import '../nouislider/nouislider.js';
 import { getData} from './api.js';
 
 const pictures = createDescriptions(comments, names);
-let effect = null;
 
 getData(showUsersPictures).then(function() {
   document.querySelector('.pictures').addEventListener('click', function(evt) {
@@ -20,6 +19,7 @@ checkLengthComment('sjefhksjfh', 90);
 
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
+let currentEffect = 'none';
 
 
 
@@ -34,8 +34,10 @@ document.querySelector('.scale').addEventListener('click', function(evt) {
 
 document.querySelector('.effects__list').addEventListener('click', function(evt) {
   if (evt.target.nodeName === 'INPUT') {
-    effect = evt.target.value;
-    imageEffect(effect);
+    let effect = evt.target.value;
+    applyImageEffect(effect, currentEffect);
+    currentEffect = effect;
+
     sliderElement.noUiSlider.set(100);
   }
 });
@@ -64,7 +66,14 @@ noUiSlider.create(sliderElement, {
   },
 });
 
-sliderElement.noUiSlider.on('update', (values, handle) => {
+sliderElement.noUiSlider.on('update', function (values, handle) {
   valueElement.value = values[handle];
-  changeIntensityEffect(effect, valueElement.value);
+  changeIntensityEffect(currentEffect, valueElement.value);
+});
+
+document.querySelector('.text__hashtags').addEventListener('input', function(evt) {
+  validateHashtags(evt.target);
+});
+document.querySelector('.text__description').addEventListener('input', function(evt) {
+  validateComment(evt.target);
 });
