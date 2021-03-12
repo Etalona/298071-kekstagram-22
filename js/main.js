@@ -4,22 +4,25 @@ import {showUsersPictures} from './picture.js';
 import {pictureClickHandler} from './big-picture.js';
 import {uploadClickHandler, imageScale, imageEffect, changeIntensityEffect} from './image-edit.js';
 import '../nouislider/nouislider.js';
+import { getData} from './api.js';
 
 const pictures = createDescriptions(comments, names);
 let effect = null;
 
-showUsersPictures(pictures);
+getData(showUsersPictures).then(function() {
+  document.querySelector('.pictures').addEventListener('click', function(evt) {
+    if (evt.target.className === 'picture__img') {
+      pictureClickHandler(evt, pictures);
+    }
+  });
+});
 checkLengthComment('sjefhksjfh', 90);
 
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
 
-document.querySelector('.pictures').addEventListener('click', function(evt) {
-  if (evt.target.className === 'picture__img') {
-    pictureClickHandler(evt, pictures);
-  }
-  return true;
-});
+
+
 document.querySelector('.img-upload__control').addEventListener('click', function(evt) {
   uploadClickHandler(evt);
 });
