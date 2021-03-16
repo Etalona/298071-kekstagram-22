@@ -7,24 +7,14 @@ const getData = function (onSuccess) {
     });
 };
 
-const sendData = (onSuccess, showAlert, body) => {
-  fetch(
+const sendData = function (formData) {
+  return fetch(
     'https://22.javascript.pages.academy/kekstagram',
     {
       method: 'POST',
-      body,
+      body: formData,
     },
   )
-    .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        showAlert('Не удалось отправить форму. Попробуйте ещё раз');
-      }
-    })
-    .catch(() => {
-      showAlert('Не удалось отправить форму. Попробуйте ещё раз');
-    });
 };
 
 export {getData, sendData}

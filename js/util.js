@@ -1,68 +1,47 @@
 const ALERT_SHOW_TIME = 5000;
 
-const getRandomIntInclusive = function (min, max) {
-  if (min < 0) {
-    return 'Диапазон может быть только положительный, включая ноль.';
-  } else if (max <= min) {
-    return 'Недопустимо передавать «до» меньшее, чем значение «от», или равное ему.'
-  } else if (max > min) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
-  }
-};
-
 const showAlert = function (message) {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
-
-  alertContainer.textContent = message;
-
-  document.body.append(alertContainer);
+  const alertContainerElement = document.querySelector('.error__block');
+  alertContainerElement.classList.remove('hidden');
+  alertContainerElement.textContent = message;
 
   setTimeout(function ()  {
-    alertContainer.remove();
+    alertContainerElement.classList.add('hidden');
   }, ALERT_SHOW_TIME);
 };
 
-const checkLengthComment = function (checkedString, maxLength) {
-  return checkedString.length <= maxLength;
-};
+const successTemplateElement = document.querySelector('#success').content;
+const errorTemplateElement = document.querySelector('#error').content;
 
-const getRandomArrayElement = function (elements) {
-  return elements[Math.floor(Math.random() * elements.length)];
-};
-
-const createDescriptions = (comments, names) => {
-  let list = [];
-  let obj = {};
-  for (let i = 1; i < 26; i++) {
-    obj = {
-      id: i,
-      url: 'photos/' + i + '.jpg',
-      description: 'Оцените мой шедевр, друзья!',
-      likes: getRandomIntInclusive(15, 200),
-      comments: [],
-    };
-    for (let j = 1; j < 6; j++) {
-      obj.comments.push({
-        id: j,
-        avatar: 'img/avatar-' + getRandomIntInclusive(1, 6) + '.svg',
-        message: getRandomArrayElement(comments),
-        name: getRandomArrayElement(names),
-      });
-    }
-    list.push(obj);
+const showInfoUpload = function (response) {
+  const successUpload = successTemplateElement.cloneNode(true);
+  const errorUpload = errorTemplateElement.cloneNode(true);
+  if (response) {
+    document.querySelector('main').appendChild(successUpload);
+    closeMessage();
+  } else {
+    document.querySelector('main').appendChild(errorUpload);
+    closeMessage();
   }
-  return list;
 };
 
-export {showAlert};
+const closeMessage = function () {
+  document.querySelector('main').addEventListener('click', function(evt) {
+    let target = evt.target;
+    if (target.classList.contains('close__button')) {
+      document.querySelector('.modal').remove();
+    }
+
+    if (target.classList.contains('modal')) {
+      target.remove();
+    }
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === ('Escape' || 'Esc')) {
+      document.querySelector('.modal').remove();
+    }
+  });
+};
+
+export { showAlert, showInfoUpload};

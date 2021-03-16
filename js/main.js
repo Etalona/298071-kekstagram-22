@@ -1,27 +1,41 @@
-import {comments, names} from './data.js';
-import {createDescriptions, checkLengthComment} from './util.js';
 import {showUsersPictures} from './picture.js';
 import {pictureClickHandler} from './big-picture.js';
 import {uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment} from './image-edit.js';
 import '../nouislider/nouislider.js';
-import { getData} from './api.js';
-
-const pictures = createDescriptions(comments, names);
-
-getData(showUsersPictures).then(function() {
-  document.querySelector('.pictures').addEventListener('click', function(evt) {
-    if (evt.target.className === 'picture__img') {
-      pictureClickHandler(evt, pictures);
-    }
-  });
-});
-checkLengthComment('sjefhksjfh', 90);
+import { getData, sendData} from './api.js';
+import {showAlert, showInfoUpload} from './util.js';
+import {resetImgUpload, closeForm} from './image-edit.js';
 
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
 let currentEffect = 'none';
 
+getData(showUsersPictures).then(function(pictures) {
+  document.querySelector('.pictures').addEventListener('click', function(evt) {
+    if (evt.target.className === 'picture__img') {
+      pictureClickHandler(evt, pictures);
+    }
+  });
+}).catch( function () {
+  showAlert('Не удалось загрузить фото. Перезагрузите страницу');
+});
 
+document.querySelector('.img-upload__form').addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(evt.target);
+
+  sendData(formData)
+    .then((response) => {
+      closeForm();
+      resetImgUpload(currentEffect);
+      showInfoUpload(response);
+    })
+    .catch(() => {
+      closeForm();
+      showInfoUpload(false);
+    });
+
+});
 
 document.querySelector('.img-upload__control').addEventListener('click', function(evt) {
   uploadClickHandler(evt);

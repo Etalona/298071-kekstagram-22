@@ -1,36 +1,34 @@
 const imgUploadElement =  document.querySelector('.img-upload__preview img');
+let scaleControlValueElement = document.querySelector('.scale__control--value');
+let currentScale = parseInt(scaleControlValueElement.value);
 
 const uploadClickHandler = function () {
-
   document.querySelector('.img-upload__overlay').classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
-
-  const closeForm = function () {
-    document.querySelector('.img-upload__overlay').classList.add('hidden');
-    document.querySelector('body').classList.remove('modal-open');
-    document.querySelector('.img-upload__input').value = '';
-  }
-
-  document.querySelector('.img-upload__cancel').addEventListener('click', function() {
-    closeForm();
-  });
-  document.addEventListener('keydown', function (evt) {
-    let classList = evt.target.classList;
-    if (classList.contains('text__hashtags') || classList.contains('text__description')) {
-      return false;
-    }
-    if (evt.key === ('Escape' || 'Esc')) {
-      evt.preventDefault();
-      closeForm();
-    }
-  });
 };
 
+const closeForm = function () {
+  document.querySelector('.img-upload__overlay').classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+  document.querySelector('.img-upload__input').value = '';
+};
+
+document.querySelector('.img-upload__cancel').addEventListener('click', function() {
+  closeForm();
+});
+
+document.addEventListener('keydown', function (evt) {
+  let classList = evt.target.classList;
+  if (classList.contains('text__hashtags') || classList.contains('text__description')) {
+    return false;
+  }
+  if (evt.key === ('Escape' || 'Esc')) {
+    evt.preventDefault();
+    closeForm();
+  }
+});
+
 const imageScale = function (direction) {
-
-  let scaleControlValueElement = document.querySelector('.scale__control--value');
-  let currentScale = parseInt(scaleControlValueElement.value);
-
   if (direction) {
     if (currentScale !== 100) {
       currentScale += 25;
@@ -116,7 +114,18 @@ const validateComment = function (commentTextareaElement) {
     commentTextareaElement.setCustomValidity('Длина комментария не может составлять больше 140 символов');
   }
   commentTextareaElement.reportValidity();
-}
+};
 
-export {uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment}
+const resetImgUpload = function (currentEffect) {
+  imgUploadElement.style.transform = 'scale(1)';
+  scaleControlValueElement.value = 100 + '%';
+  currentScale = 100;
+  applyImageEffect('none', currentEffect);
+  changeIntensityEffect('none', 0);
+  document.querySelector('.effects__radio:first-child').checked = true;
+  document.querySelector('.text__hashtags').value = '';
+  document.querySelector('.text__description').value = '';
+};
+
+export {resetImgUpload, uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment, closeForm}
 
