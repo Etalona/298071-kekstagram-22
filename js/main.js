@@ -20,7 +20,7 @@ getData(showUsersPictures).then(function(pictures) {
   showAlert('Не удалось загрузить фото. Перезагрузите страницу');
 });
 
-document.querySelector('.img-upload__form').addEventListener('submit', (evt) => {
+document.querySelector('.img-upload__form').addEventListener('submit', function(evt) {
   evt.preventDefault();
   const formData = new FormData(evt.target);
 
