@@ -1,6 +1,11 @@
 const showUsersPictures = function (pictures) {
   const pictureTemplateElement = document.querySelector('#picture').content;
   const picturesContainerElement = document.querySelector('.pictures');
+  const pictureCollection = document.querySelectorAll('.picture');
+  pictureCollection.forEach(function (element) {
+    element.remove();
+  });
+
 
   for (let i = 0; i < pictures.length; i++) {
     let picture = pictureTemplateElement.cloneNode(true);
