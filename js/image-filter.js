@@ -1,9 +1,11 @@
 import {chooseRandom} from './util.js';
 import {showUsersPictures} from './picture.js';
 
+const NUMBER_OF_RANDOM_PICTURES = 10;
+
 const sortRandomly = function (evt, pictureArr) {
   const arrIdPhotos = Array.from(Array(pictureArr.length).keys());
-  const randomElements = chooseRandom(arrIdPhotos, 10);
+  const randomElements = chooseRandom(arrIdPhotos, NUMBER_OF_RANDOM_PICTURES);
   const pictures = [];
 
   randomElements.forEach(function (index) {

@@ -1,6 +1,6 @@
 /* global _:readonly */
 import {showUsersPictures} from './picture.js';
-import {pictureClickHandler} from './big-picture.js';
+import {pictureClickHandler, showComments} from './big-picture.js';
 import {uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment} from './image-edit.js';
 import '../nouislider/nouislider.js';
 import { getData, sendData} from './api.js';
@@ -121,3 +121,10 @@ const debounceCb = _.debounce(function (evt) {
 }, RERENDER_DELAY);
 
 document.querySelector('.img-filters__form').addEventListener('click', debounceCb);
+
+document.querySelector('.comments-loader').addEventListener('click', function() {
+  const currPictureIndex = document.querySelector('.big-picture').dataset.indexNumber;
+  const CurrPictureComments = pictureArr[currPictureIndex];
+  showComments(CurrPictureComments.comments);
+});
+
