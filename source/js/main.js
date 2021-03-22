@@ -2,7 +2,7 @@
 import {showUsersPictures} from './picture.js';
 import {pictureClickHandler, showComments} from './big-picture.js';
 import {uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment, showUploadedPicture} from './image-edit.js';
-import '../nouislider/nouislider.js';
+import '../../nouislider/nouislider.js';
 import { getData, sendData} from './api.js';
 import {showAlert, showInfoUpload} from './util.js';
 import {resetImgUpload, closeForm} from './image-edit.js';
