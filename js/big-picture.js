@@ -1,5 +1,10 @@
 const SHOW_PICTURE_NUM = 5;
 
+const hideCommentsLoader = function () {
+  const commentsLoaderElement = document.querySelector('.comments-loader').classList;
+  commentsLoaderElement.add('hidden');
+};
+
 const showComments = function (comments) {
   const commentsCount = document.querySelectorAll('.social__comments li').length;
   const showCountComments = comments.slice(commentsCount, commentsCount + SHOW_PICTURE_NUM);
@@ -7,7 +12,7 @@ const showComments = function (comments) {
   const commentsContainerElement = document.querySelector('.social__comments');
 
   if (showCountComments.length < SHOW_PICTURE_NUM) {
-    document.querySelector('.comments-loader').classList.add('hidden');
+    hideCommentsLoader();
   }
   for (let i = 0; i < showCountComments.length; i++) {
     let commentNode = commentTemplateElement.cloneNode(true);
@@ -20,18 +25,20 @@ const showComments = function (comments) {
 
     commentsContainerElement.appendChild(commentNode);
   }
-}
+};
 
 const pictureClickHandler = function (evt, pictures) {
+
   const pictureElement = evt.target;
 
-  const currPictureIndex = pictureElement.getAttribute('index');
-  const currPicture = pictures[currPictureIndex];
+  const currPictureId = pictureElement.dataset.pictureId;
+  const currPicture = pictures.find(function (item) {
+    return item.id === parseInt(currPictureId);
+  });
 
   const bigPictureElement =  document.querySelector('.big-picture');
   bigPictureElement.classList.remove('hidden');
-
-  bigPictureElement.dataset.indexNumber = currPictureIndex;
+  bigPictureElement.dataset.pictureId = currPictureId;
 
   const bigPictureContainerElement = bigPictureElement.querySelector('.big-picture__img');
   const bigPictureImgElement = bigPictureContainerElement.querySelector('img');
@@ -50,13 +57,11 @@ const pictureClickHandler = function (evt, pictures) {
   commentsContainerElement.innerHTML = '';
   showComments(currPicture.comments);
 
-  const commentsLoaderElement = document.querySelector('.comments-loader').classList;
-
   if (currPicture.comments.length <= 5) {
-    commentsLoaderElement.add('hidden');
+    hideCommentsLoader();
   }
   else {
-    commentsLoaderElement.remove('hidden');
+    document.querySelector('.comments-loader').classList.remove('hidden');
   }
 
   document.querySelector('.social__comment-count').classList.add('hidden');

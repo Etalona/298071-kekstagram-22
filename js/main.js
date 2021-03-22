@@ -123,8 +123,11 @@ const debounceCb = _.debounce(function (evt) {
 document.querySelector('.img-filters__form').addEventListener('click', debounceCb);
 
 document.querySelector('.comments-loader').addEventListener('click', function() {
-  const currPictureIndex = document.querySelector('.big-picture').dataset.indexNumber;
-  const CurrPictureComments = pictureArr[currPictureIndex];
-  showComments(CurrPictureComments.comments);
+  const currPictureId = document.querySelector('.big-picture').dataset.pictureId;
+  const currPicture = pictureArr.find(function (item) {
+    return item.id === parseInt(currPictureId);
+  });
+
+  showComments(currPicture.comments);
 });
 
