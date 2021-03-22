@@ -1,7 +1,7 @@
 /* global _:readonly */
 import {showUsersPictures} from './picture.js';
 import {pictureClickHandler, showComments} from './big-picture.js';
-import {uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment} from './image-edit.js';
+import {uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment, showUploadedPicture} from './image-edit.js';
 import '../nouislider/nouislider.js';
 import { getData, sendData} from './api.js';
 import {showAlert, showInfoUpload} from './util.js';
@@ -131,3 +131,6 @@ document.querySelector('.comments-loader').addEventListener('click', function() 
   showComments(currPicture.comments);
 });
 
+document.querySelector('.img-upload__start input[type=file]').addEventListener('change', function(evt) {
+  showUploadedPicture(evt);
+});

@@ -1,6 +1,7 @@
 const ALLOWED_COMMENT_LENGTH = 140;
 const NUMBER_OF_HASHTAGS = 5;
 const HASHTAG_LENGTH = 20;
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 const imgUploadElement =  document.querySelector('.img-upload__preview img');
 let scaleControlValueElement = document.querySelector('.scale__control--value');
@@ -130,6 +131,23 @@ const resetImgUpload = function (currentEffect) {
   document.querySelector('.text__hashtags').value = '';
   document.querySelector('.text__description').value = '';
 };
+const showUploadedPicture = function (evt) {
+  const preview = document.querySelector('.img-upload__preview img');
 
-export {resetImgUpload, uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment, closeForm}
+  const file = evt.target.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some(function(it) {
+    return fileName.endsWith(it);
+  });
+  if (matches) {
+    const reader = new FileReader();
+    reader.addEventListener('load', function() {
+      preview.src = reader.result;
+    });
+    reader.readAsDataURL(file);
+  }
+}
+
+export {resetImgUpload, uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment, closeForm, showUploadedPicture}
 
