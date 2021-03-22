@@ -1,4 +1,4 @@
-const ALERT_SHOW_TIME = 5000;
+const ALERT_SHOW_TIME = 6000;
 
 const showAlert = function (message) {
   const alertContainerElement = document.querySelector('.error__block');

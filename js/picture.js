@@ -6,22 +6,21 @@ const showUsersPictures = function (pictures) {
     element.remove();
   });
 
-
   for (let i = 0; i < pictures.length; i++) {
-    let picture = pictureTemplateElement.cloneNode(true);
-    let pictureImgElement = picture.querySelector('.picture__img');
-    let listElement = pictures[i];
+    let pictureTemplate = pictureTemplateElement.cloneNode(true);
+    let pictureImgElement = pictureTemplate.querySelector('.picture__img');
+    let picture = pictures[i];
 
-    pictureImgElement.src =  listElement.url;
-    pictureImgElement.setAttribute('index', i + '');
+    pictureImgElement.src =  picture.url;
+    pictureImgElement.dataset.pictureId = picture.id;
 
-    let pictureCommentsCountElement = picture.querySelector('.picture__comments');
-    pictureCommentsCountElement.textContent = listElement.comments.length;
+    let pictureCommentsCountElement = pictureTemplate.querySelector('.picture__comments');
+    pictureCommentsCountElement.textContent = picture.comments.length;
 
-    let pictureLikesCountElement = picture.querySelector('.picture__likes');
-    pictureLikesCountElement.textContent = listElement.likes;
+    let pictureLikesCountElement = pictureTemplate.querySelector('.picture__likes');
+    pictureLikesCountElement.textContent = picture.likes;
 
-    picturesContainerElement.appendChild(picture);
+    picturesContainerElement.appendChild(pictureTemplate);
   }
 };
 

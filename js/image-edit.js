@@ -1,3 +1,7 @@
+const ALLOWED_COMMENT_LENGTH = 140;
+const NUMBER_OF_HASHTAGS = 5;
+const HASHTAG_LENGTH = 20;
+
 const imgUploadElement =  document.querySelector('.img-upload__preview img');
 let scaleControlValueElement = document.querySelector('.scale__control--value');
 let currentScale = parseInt(scaleControlValueElement.value);
@@ -83,7 +87,7 @@ const validateHashtags = function (el) {
     el.setCustomValidity('Хэштэги не должны повторяться');
   }
 
-  if (hashtagsArray.length > 5) {
+  if (hashtagsArray.length > NUMBER_OF_HASHTAGS) {
     el.setCustomValidity('Хэштегов не может быть больше 5 штук');
   }
 
@@ -100,7 +104,7 @@ const validateHashtags = function (el) {
       break;
     }
 
-    if (hashtag.length > 20) {
+    if (hashtag.length > HASHTAG_LENGTH) {
       el.setCustomValidity('Хэштэг не должен содержать больше 19 символов после "#"');
       break;
     }
@@ -110,7 +114,7 @@ const validateHashtags = function (el) {
 
 const validateComment = function (commentTextareaElement) {
   commentTextareaElement.setCustomValidity('');
-  if (commentTextareaElement.value.length > 140) {
+  if (commentTextareaElement.value.length > ALLOWED_COMMENT_LENGTH) {
     commentTextareaElement.setCustomValidity('Длина комментария не может составлять больше 140 символов');
   }
   commentTextareaElement.reportValidity();
