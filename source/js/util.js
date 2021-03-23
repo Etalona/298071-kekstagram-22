@@ -45,16 +45,21 @@ const closeMessage = function () {
 };
 
 const chooseRandom = function(arr, num = 1)  {
-  const res = [];
+  const results = [];
   for(let i = 0; i < num; ){
     const random = Math.floor(Math.random() * arr.length);
-    if(res.indexOf(arr[random]) !== -1){
+    if(results.indexOf(arr[random]) !== -1){
       continue;
     }
-    res.push(arr[random]);
+    results.push(arr[random]);
     i++;
   }
-  return res;
+  return results;
 };
 
-export { showAlert, showInfoUpload, chooseRandom};
+const closeModalCallback = function (element) {
+  element.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+};
+
+export { showAlert, showInfoUpload, chooseRandom, closeModalCallback };
