@@ -1,3 +1,5 @@
+import {closeModalCallback} from './util.js';
+
 const ALLOWED_COMMENT_LENGTH = 140;
 const NUMBER_OF_HASHTAGS = 5;
 const HASHTAG_LENGTH = 20;
@@ -13,9 +15,9 @@ const uploadClickHandler = function () {
 };
 
 const closeForm = function () {
-  document.querySelector('.img-upload__overlay').classList.add('hidden');
-  document.querySelector('body').classList.remove('modal-open');
+  closeModalCallback(document.querySelector('.img-upload__overlay'));
   document.querySelector('.img-upload__input').value = '';
+  resetImgUpload('none');
 };
 
 document.querySelector('.img-upload__cancel').addEventListener('click', function() {
@@ -132,7 +134,7 @@ const resetImgUpload = function (currentEffect) {
   document.querySelector('.text__description').value = '';
 };
 const showUploadedPicture = function (evt) {
-  const preview = document.querySelector('.img-upload__preview img');
+  const previewElement = document.querySelector('.img-upload__preview img');
 
   const file = evt.target.files[0];
   const fileName = file.name.toLowerCase();
@@ -143,7 +145,7 @@ const showUploadedPicture = function (evt) {
   if (matches) {
     const reader = new FileReader();
     reader.addEventListener('load', function() {
-      preview.src = reader.result;
+      previewElement.src = reader.result;
     });
     reader.readAsDataURL(file);
   }

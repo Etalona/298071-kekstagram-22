@@ -1,14 +1,11 @@
+import {closeModalCallback} from './util.js';
+
 const SHOW_PICTURE_NUM = 5;
 
 const toggleCommentsLoader = function (allComments, existCommentsCount) {
-  const commentsLoaderElement = document.querySelector('.comments-loader').classList;
+  const loaderElement = document.querySelector('.comments-loader').classList;
 
-  if (existCommentsCount >= allComments.length) {
-    commentsLoaderElement.add('hidden');
-  }
-  else {
-    commentsLoaderElement.remove('hidden');
-  }
+  existCommentsCount >= allComments.length ? loaderElement.add('hidden') : loaderElement.remove('hidden');
 };
 
 const showComments = function (comments) {
@@ -67,8 +64,14 @@ const pictureClickHandler = function (evt, pictures) {
   document.querySelector('body').classList.add('modal-open');
 
   document.querySelector('.big-picture__cancel').addEventListener('click', function() {
-    bigPictureElement.classList.add('hidden');
-    document.querySelector('body').classList.remove('modal-open');
+    closeModalCallback(bigPictureElement);
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === ('Escape' || 'Esc')) {
+      evt.preventDefault();
+      closeModalCallback(bigPictureElement);
+    }
   });
 };
 
