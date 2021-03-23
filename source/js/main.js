@@ -1,12 +1,13 @@
-/* global _:readonly */
+import noUiSlider from 'nouislider';
 import {showUsersPictures} from './picture.js';
 import {pictureClickHandler, showComments} from './big-picture.js';
 import {uploadClickHandler, imageScale, applyImageEffect, changeIntensityEffect, validateHashtags, validateComment, showUploadedPicture} from './image-edit.js';
-import '../../nouislider/nouislider.js';
 import { getData, sendData} from './api.js';
 import {showAlert, showInfoUpload} from './util.js';
 import {resetImgUpload, closeForm} from './image-edit.js';
 import {sortRandomly, sortDiscussed} from './image-filter.js';
+import { debounce } from 'lodash';
+import 'nouislider/distribute/nouislider.css';
 
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
@@ -67,7 +68,6 @@ document.querySelector('.effects__list').addEventListener('click', function(evt)
 
 valueElement.value = 100;
 
-/* global noUiSlider:readonly */
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -101,7 +101,7 @@ document.querySelector('.text__description').addEventListener('input', function(
   validateComment(evt.target);
 });
 
-const debounceCb = _.debounce(function (evt) {
+const debounceCb = debounce(function (evt) {
   let oldButton = currentButton;
   currentButton = evt.target.id;
 
