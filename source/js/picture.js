@@ -2,6 +2,7 @@ const showUsersPictures = function (pictures) {
   const pictureTemplateElement = document.querySelector('#picture').content;
   const picturesContainerElement = document.querySelector('.pictures');
   const pictureCollection = document.querySelectorAll('.picture');
+
   pictureCollection.forEach(function (element) {
     element.remove();
   });

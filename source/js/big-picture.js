@@ -1,6 +1,10 @@
-import {closeModalCallback} from './util.js';
-
 const SHOW_PICTURE_NUM = 5;
+
+const bigPictureElement =  document.querySelector('.big-picture');
+const closeBtnElement = document.querySelector('.big-picture__cancel');
+const commentsLoaderButton = document.querySelector('.comments-loader');
+
+let allPictures = [];
 
 const toggleCommentsLoader = function (allComments, existCommentsCount) {
   const loaderElement = document.querySelector('.comments-loader').classList;
@@ -29,7 +33,16 @@ const showComments = function (comments) {
   toggleCommentsLoader(comments, commentsCount + SHOW_PICTURE_NUM);
 };
 
+const closeModal = function (element) {
+  element.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+
+  removeCallbacks();
+};
+
 const pictureClickHandler = function (evt, pictures) {
+  allPictures = pictures;
+  attachCallbacks();
 
   const pictureElement = evt.target;
 
@@ -38,7 +51,6 @@ const pictureClickHandler = function (evt, pictures) {
     return item.id === parseInt(currentPictureId);
   });
 
-  const bigPictureElement =  document.querySelector('.big-picture');
   bigPictureElement.classList.remove('hidden');
   bigPictureElement.dataset.pictureId = currentPictureId;
 
@@ -62,17 +74,44 @@ const pictureClickHandler = function (evt, pictures) {
 
   document.querySelector('.social__comment-count').classList.add('hidden');
   document.querySelector('body').classList.add('modal-open');
-
-  document.querySelector('.big-picture__cancel').addEventListener('click', function() {
-    closeModalCallback(bigPictureElement);
-  });
-
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === ('Escape' || 'Esc')) {
-      evt.preventDefault();
-      closeModalCallback(bigPictureElement);
-    }
-  });
 };
 
-export {pictureClickHandler, showComments}
+const escapeBtnPressHandler = function (evt) {
+  if (evt.key === ('Escape' || 'Esc')) {
+    evt.preventDefault();
+    closeModal(bigPictureElement);
+  }
+};
+
+const closebtnClickHandler = function (evt) {
+  evt.preventDefault();
+
+  closeModal(bigPictureElement);
+};
+
+const commentsBtnClickHandler = function (evt) {
+  evt.preventDefault();
+
+  const currPictureId = bigPictureElement.dataset.pictureId;
+  const currPicture = allPictures.find(function (item) {
+    return item.id === parseInt(currPictureId);
+  });
+
+  showComments(currPicture.comments);
+};
+
+const attachCallbacks = function () {
+  closeBtnElement.addEventListener('click', closebtnClickHandler);
+  commentsLoaderButton.addEventListener('click', commentsBtnClickHandler);
+
+  document.addEventListener('keydown', escapeBtnPressHandler);
+};
+
+const removeCallbacks = function () {
+  closeBtnElement.removeEventListener('click', closebtnClickHandler);
+  commentsLoaderButton.removeEventListener('click', commentsBtnClickHandler);
+
+  document.removeEventListener('keydown', escapeBtnPressHandler);
+};
+
+export {pictureClickHandler }

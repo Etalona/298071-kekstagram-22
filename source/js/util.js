@@ -10,41 +10,6 @@ const showAlert = function (message) {
   }, ALERT_SHOW_TIME);
 };
 
-const successTemplateElement = document.querySelector('#success').content;
-const errorTemplateElement = document.querySelector('#error').content;
-
-const showInfoUpload = function (response) {
-  const successUpload = successTemplateElement.cloneNode(true);
-  const errorUpload = errorTemplateElement.cloneNode(true);
-
-  if (response) {
-    document.querySelector('main').appendChild(successUpload);
-  } else {
-    document.querySelector('main').appendChild(errorUpload);
-  }
-
-  closeMessage();
-};
-
-const closeMessage = function () {
-  document.querySelector('main').addEventListener('click', function(evt) {
-    let target = evt.target;
-    if (target.classList.contains('close__button')) {
-      document.querySelector('.modal').remove();
-    }
-
-    if (target.classList.contains('modal')) {
-      target.remove();
-    }
-  });
-
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === ('Escape' || 'Esc')) {
-      document.querySelector('.modal').remove();
-    }
-  });
-};
-
 const chooseRandom = function(numbersArray, num = 1)  {
   const results = [];
   for(let i = 0; i < num; ){
@@ -58,9 +23,4 @@ const chooseRandom = function(numbersArray, num = 1)  {
   return results;
 };
 
-const closeModalCallback = function (element) {
-  element.classList.add('hidden');
-  document.querySelector('body').classList.remove('modal-open');
-};
-
-export { showAlert, showInfoUpload, chooseRandom, closeModalCallback };
+export { showAlert, chooseRandom};
