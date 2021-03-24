@@ -3,24 +3,24 @@ import {showUsersPictures} from './picture.js';
 
 const NUMBER_OF_RANDOM_PICTURES = 10;
 
-const sortRandomly = function (evt, pictureArr) {
-  const arrIdPhotos = Array.from(Array(pictureArr.length).keys());
-  const randomElements = chooseRandom(arrIdPhotos, NUMBER_OF_RANDOM_PICTURES);
+const sortRandomly = function (evt, picturesArray) {
+  const arrayIdPhotos = Array.from(Array(picturesArray.length).keys());
+  const randomElements = chooseRandom(arrayIdPhotos, NUMBER_OF_RANDOM_PICTURES);
   const pictures = [];
 
   randomElements.forEach(function (index) {
-    pictures.push(pictureArr[index])
+    pictures.push(picturesArray[index])
   });
 
   showUsersPictures(pictures);
 };
 
-const sortDiscussed = function (evt, pictureArr) {
-  const sortedPictures = [...pictureArr].sort(function(a, b) {
-    if (a.comments.length < b.comments.length) {
+const sortDiscussed = function (evt, picturesArray) {
+  const sortedPictures = [...picturesArray].sort(function(currentPicture, nextPicture) {
+    if (currentPicture.comments.length < nextPicture.comments.length) {
       return 1;
     }
-    if (a.comments.length > b.comments.length) {
+    if (currentPicture.comments.length > nextPicture.comments.length) {
       return -1;
     }
     return 0;
