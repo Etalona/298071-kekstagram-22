@@ -6,10 +6,9 @@ const showUsersPictures = function (pictures) {
     element.remove();
   });
 
-  for (let i = 0; i < pictures.length; i++) {
+  pictures.forEach(function (picture) {
     let pictureTemplate = pictureTemplateElement.cloneNode(true);
     let pictureImgElement = pictureTemplate.querySelector('.picture__img');
-    let picture = pictures[i];
 
     pictureImgElement.src =  picture.url;
     pictureImgElement.dataset.pictureId = picture.id;
@@ -21,7 +20,8 @@ const showUsersPictures = function (pictures) {
     pictureLikesCountElement.textContent = picture.likes;
 
     picturesContainerElement.appendChild(pictureTemplate);
-  }
+  });
+
 };
 
 export {showUsersPictures}

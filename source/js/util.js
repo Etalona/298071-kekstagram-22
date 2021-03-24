@@ -16,13 +16,14 @@ const errorTemplateElement = document.querySelector('#error').content;
 const showInfoUpload = function (response) {
   const successUpload = successTemplateElement.cloneNode(true);
   const errorUpload = errorTemplateElement.cloneNode(true);
+
   if (response) {
     document.querySelector('main').appendChild(successUpload);
-    closeMessage();
   } else {
     document.querySelector('main').appendChild(errorUpload);
-    closeMessage();
   }
+
+  closeMessage();
 };
 
 const closeMessage = function () {
@@ -44,14 +45,14 @@ const closeMessage = function () {
   });
 };
 
-const chooseRandom = function(arr, num = 1)  {
+const chooseRandom = function(numbersArray, num = 1)  {
   const results = [];
   for(let i = 0; i < num; ){
-    const random = Math.floor(Math.random() * arr.length);
-    if(results.indexOf(arr[random]) !== -1){
+    const random = Math.floor(Math.random() * numbersArray.length);
+    if(results.indexOf(numbersArray[random]) !== -1){
       continue;
     }
-    results.push(arr[random]);
+    results.push(numbersArray[random]);
     i++;
   }
   return results;

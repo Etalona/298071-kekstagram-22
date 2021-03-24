@@ -130,8 +130,13 @@ const resetImgUpload = function (currentEffect) {
   applyImageEffect('none', currentEffect);
   changeIntensityEffect('none', 0);
   document.querySelector('.effects__radio:first-child').checked = true;
-  document.querySelector('.text__hashtags').value = '';
-  document.querySelector('.text__description').value = '';
+  const textHashtagElement = document.querySelector('.text__hashtags');
+  const textDescriptionElement = document.querySelector('.text__description');
+  textHashtagElement.value = '';
+  textDescriptionElement.value = '';
+
+  textHashtagElement.setCustomValidity('');
+  textDescriptionElement.setCustomValidity('');
 };
 const showUploadedPicture = function (evt) {
   const previewElement = document.querySelector('.img-upload__preview img');

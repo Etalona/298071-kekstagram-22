@@ -9,16 +9,16 @@ import {sortRandomly, sortDiscussed} from './image-filter.js';
 import { debounce } from 'lodash';
 import 'nouislider/distribute/nouislider.css';
 
+const RERENDER_DELAY = 500;
+
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
 let currentEffect = 'none';
 let currentButton = 'filter-default';
-let pictureArr = [];
-
-const RERENDER_DELAY = 500;
+let picturesArray = [];
 
 getData(showUsersPictures).then(function(pictures) {
-  pictureArr = pictures;
+  picturesArray = pictures;
 
   document.querySelector('.pictures').addEventListener('click', function(evt) {
     if (evt.target.className === 'picture__img') {
@@ -47,9 +47,7 @@ document.querySelector('.img-upload__form').addEventListener('submit', function(
 
 });
 
-document.querySelector('.img-upload__control').addEventListener('click', function(evt) {
-  uploadClickHandler(evt);
-});
+document.querySelector('.img-upload__input').addEventListener('change', uploadClickHandler);
 
 document.querySelector('.scale').addEventListener('click', function(evt) {
   let scaleDirection = evt.target.classList.contains('scale__control--bigger');
@@ -101,30 +99,30 @@ document.querySelector('.text__description').addEventListener('input', function(
   validateComment(evt.target);
 });
 
-const debounceCb = debounce(function (evt) {
+const filterClickHandler = debounce(function (evt) {
   let oldButton = currentButton;
   currentButton = evt.target.id;
 
   document.querySelector('#' + oldButton).classList.remove('img-filters__button--active');
 
   if (currentButton === 'filter-default') {
-    showUsersPictures(pictureArr);
+    showUsersPictures(picturesArray);
   }
   if (currentButton === 'filter-random') {
-    sortRandomly(evt.target, pictureArr);
+    sortRandomly(evt.target, picturesArray);
   }
   if (currentButton === 'filter-discussed') {
-    sortDiscussed(evt.target, pictureArr);
+    sortDiscussed(evt.target, picturesArray);
   }
 
   document.querySelector('#' + currentButton).classList.add('img-filters__button--active');
 }, RERENDER_DELAY);
 
-document.querySelector('.img-filters__form').addEventListener('click', debounceCb);
+document.querySelector('.img-filters__form').addEventListener('click', filterClickHandler);
 
 document.querySelector('.comments-loader').addEventListener('click', function() {
   const currPictureId = document.querySelector('.big-picture').dataset.pictureId;
-  const currPicture = pictureArr.find(function (item) {
+  const currPicture = picturesArray.find(function (item) {
     return item.id === parseInt(currPictureId);
   });
 
