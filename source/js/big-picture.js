@@ -92,12 +92,12 @@ const closebtnClickHandler = function (evt) {
 const commentsBtnClickHandler = function (evt) {
   evt.preventDefault();
 
-  const currPictureId = bigPictureElement.dataset.pictureId;
-  const currPicture = allPictures.find(function (item) {
-    return item.id === parseInt(currPictureId);
+  const currentPictureId = bigPictureElement.dataset.pictureId;
+  const currentPicture = allPictures.find(function (item) {
+    return item.id === parseInt(currentPictureId);
   });
 
-  showComments(currPicture.comments);
+  showComments(currentPicture.comments);
 };
 
 const attachCallbacks = function () {
